@@ -10,6 +10,7 @@ const MAX_FILES = 20;
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDivClick = () => {
     inputRef.current && inputRef.current.click();
@@ -36,14 +37,26 @@ export default function Home() {
 
   const onFileUpload = async () => {
     if (file.length === 0) return;
+    setIsLoading(true);
+    // Create an instance of FormData
+    const formData = new FormData();
+
+    // Append each file to the 'images' field (or whatever your backend expects)
+    file.forEach((fileItem) => {
+      formData.append("images", fileItem); // 'images' should match the field name expected by Multer on the backend
+    });
+
     try {
-      const response = await axios.post("http://localhost:5000/upload", file, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:2000/upload",
+        formData
+      );
+      console.log("Response:", response.data);
+      setFile([]);
+      setIsLoading(false);
     } catch (err) {
       console.log("Error:", err);
+      setIsLoading(false);
     }
   };
 
@@ -65,8 +78,8 @@ export default function Home() {
           <CloudUpload className="h-[150px] w-[150px] text-zinc-600" />
           <p>Click here to upload your image</p>
         </div>
-        <div className="w-full h-[20%] border flex justify-between gap-2">
-          <div className="flex w-[50%] gap-2 overflow-x-auto py-3 px-3">
+        <div className="w-full h-[20%] border flex justify-between gap-2 flex-col md:flex-row">
+          <div className="flex w-full gap-2 overflow-x-auto py-3 px-3 ">
             {file.map((image, index) => (
               <Image
                 width={60}
@@ -79,7 +92,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="flex w-[30%] h-full items-center justify-center gap-3">
+          <div className="flex w-full h-full items-center justify-end gap-3 px-3">
             <Button
               disabled={file.length === 0}
               onClick={() => setFile([])}
@@ -88,7 +101,7 @@ export default function Home() {
             >
               Clear
             </Button>
-            <Button size={"lg"} onClick={onFileUpload}>
+            <Button size={"lg"} onClick={onFileUpload} disabled={isLoading}>
               Upload
             </Button>
           </div>
