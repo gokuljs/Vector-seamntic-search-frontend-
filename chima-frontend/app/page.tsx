@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { CloudUpload } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
+import { toast } from "sonner";
 
+const MAX_FILES = 20;
 export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File[]>([]);
@@ -18,9 +20,15 @@ export default function Home() {
       const imageFiles: File[] = Array.from(files).filter((file) =>
         file.type.startsWith("image/")
       );
-      // Perform upload logic for imageFiles here
       setFile((prev) => {
-        return [...prev, ...imageFiles];
+        const spaceLeft = MAX_FILES - prev.length;
+        const filesToAdd = imageFiles.slice(0, spaceLeft);
+        if (filesToAdd.length < imageFiles.length) {
+          toast(
+            `You can only upload a maximum of ${MAX_FILES} files in total.`
+          );
+        }
+        return [...prev, ...filesToAdd];
       });
     }
   };
@@ -68,6 +76,9 @@ export default function Home() {
             </Button>
             <Button size={"lg"}>Upload</Button>
           </div>
+        </div>
+        <div className="w-full text-xs text-gray-500">
+          Total number of files allowed {MAX_FILES}
         </div>
       </div>
     </main>
