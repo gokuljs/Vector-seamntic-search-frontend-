@@ -4,6 +4,7 @@ import { CloudUpload } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import { toast } from "sonner";
+import axios from "axios";
 
 const MAX_FILES = 20;
 export default function Home() {
@@ -33,6 +34,19 @@ export default function Home() {
     }
   };
 
+  const onFileUpload = async () => {
+    if (file.length === 0) return;
+    try {
+      const response = await axios.post("http://localhost:5000/upload", file, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    } catch (err) {
+      console.log("Error:", err);
+    }
+  };
+
   return (
     <main className="flex flex-col items-center justify-center h-full w-full ">
       <div className="w-[80%] border-slate h-[50vh] border rounded-md px-3 flex flex-col items-center justify-center gap-4 py-3">
@@ -51,8 +65,8 @@ export default function Home() {
           <CloudUpload className="h-[150px] w-[150px] text-zinc-600" />
           <p>Click here to upload your image</p>
         </div>
-        <div className="w-full h-[20%] border flex gap-2">
-          <div className="flex w-[80%] gap-2 overflow-x-auto py-3 px-3">
+        <div className="w-full h-[20%] border flex justify-between gap-2">
+          <div className="flex w-[50%] gap-2 overflow-x-auto py-3 px-3">
             {file.map((image, index) => (
               <Image
                 width={60}
@@ -65,7 +79,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="flex w-[20%] h-full items-center justify-center gap-3">
+          <div className="flex w-[30%] h-full items-center justify-center gap-3">
             <Button
               disabled={file.length === 0}
               onClick={() => setFile([])}
@@ -74,7 +88,9 @@ export default function Home() {
             >
               Clear
             </Button>
-            <Button size={"lg"}>Upload</Button>
+            <Button size={"lg"} onClick={onFileUpload}>
+              Upload
+            </Button>
           </div>
         </div>
         <div className="w-full text-xs text-gray-500">
