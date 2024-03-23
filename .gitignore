@@ -32,3 +32,4 @@ chima-frontend/.vercel
 # typescript
 chima-frontend/*.tsbuildinfo
 chima-frontend/next-env.d.ts
+node_modules/
