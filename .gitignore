@@ -1,0 +1,34 @@
+# dependencies
+chima-frontend/node_modules/
+chima-frontend/.pnp
+chima-frontend/.pnp.js
+chima-frontend/.yarn/install-state.gz
+
+# testing
+chima-frontend/coverage
+
+# next.js
+chima-frontend/.next/
+chima-frontend/out/
+
+# production
+chima-frontend/build
+
+# misc
+chima-frontend/.DS_Store
+chima-frontend/*.pem
+
+# debug
+chima-frontend/npm-debug.log*
+chima-frontend/yarn-debug.log*
+chima-frontend/yarn-error.log*
+
+# local env files
+chima-frontend/.env*.local
+
+# vercel
+chima-frontend/.vercel
+
+# typescript
+chima-frontend/*.tsbuildinfo
+chima-frontend/next-env.d.ts
