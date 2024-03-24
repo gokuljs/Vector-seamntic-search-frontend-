@@ -32,6 +32,7 @@ export default function Home() {
         }
         return [...prev, ...filesToAdd];
       });
+      event.target.value = ""; // This line clears the selected files
     }
   };
 
