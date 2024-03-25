@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
+import { ColorRing } from "react-loader-spinner";
 
 interface DataProps {
   description: string;
@@ -59,7 +60,19 @@ const Page = () => {
           ref={inputRef}
           placeholder="Enter you query for search"
         />
-        <Search className="cursor-pointer" onClick={onSubmit} />
+        {isLoading ? (
+          <ColorRing
+            visible={true}
+            height="180"
+            width="180"
+            ariaLabel="color-ring-loading"
+            wrapperStyle={{}}
+            wrapperClass="color-ring-wrapper"
+            colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+          />
+        ) : (
+          <Search className="cursor-pointer" onClick={onSubmit} />
+        )}
       </div>
 
       <div className="flex w-full flex-wrap items-center gap-2  justify-stretch px-6">
