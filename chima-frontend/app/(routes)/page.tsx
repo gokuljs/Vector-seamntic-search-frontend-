@@ -33,7 +33,7 @@ export default function Home() {
             console.log("checked");
             toast({
               title: "Max Number of files exceeded",
-              description: "Only ${MAX_FILES} files are permitted.",
+              description: `Only ${MAX_FILES} files are permitted.`,
             });
           }
           return [...prev, ...filesToAdd];
