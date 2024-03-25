@@ -63,15 +63,18 @@ const Page = () => {
         {isLoading ? (
           <ColorRing
             visible={true}
-            height="180"
-            width="180"
+            height="30"
+            width="30"
             ariaLabel="color-ring-loading"
             wrapperStyle={{}}
             wrapperClass="color-ring-wrapper"
             colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
           />
         ) : (
-          <Search className="cursor-pointer" onClick={onSubmit} />
+          <Search
+            className="cursor-pointer h-[30px] w-[30px]"
+            onClick={onSubmit}
+          />
         )}
       </div>
 
