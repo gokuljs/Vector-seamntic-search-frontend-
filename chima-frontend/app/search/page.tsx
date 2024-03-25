@@ -38,8 +38,6 @@ const Page = () => {
     }
   }, [currentQuestion]);
 
-  //   console.log(data, "ssss");
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "/" && document.activeElement !== inputRef.current) {

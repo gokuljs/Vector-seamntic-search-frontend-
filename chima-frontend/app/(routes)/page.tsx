@@ -21,7 +21,6 @@ export default function Home() {
   const handleFileUpload = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       if (event.target.files) {
-        console.log("check", "ssss");
         const files: FileList = event.target.files;
         const imageFiles: File[] = Array.from(files).filter((file) =>
           file.type.startsWith("image/")
@@ -30,7 +29,6 @@ export default function Home() {
           const spaceLeft = MAX_FILES - prev.length;
           const filesToAdd = imageFiles.slice(0, spaceLeft);
           if (filesToAdd.length < imageFiles.length) {
-            console.log("checked");
             toast({
               title: "Max Number of files exceeded",
               description: `Only ${MAX_FILES} files are permitted.`,
@@ -60,11 +58,12 @@ export default function Home() {
         "http://localhost:2000/upload",
         formData
       );
-      console.log("Response:", response.data);
+
       setFile([]);
       setIsLoading(false);
     } catch (err) {
       console.log("Error:", err);
+
       toast({
         title: "Something went wrong Try after sometime",
       });
