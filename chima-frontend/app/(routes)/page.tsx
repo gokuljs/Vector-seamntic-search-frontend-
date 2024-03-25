@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ChangeEvent, useCallback, useRef, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
+import { RotatingLines } from "react-loader-spinner";
 
 const MAX_FILES = 8;
 export default function Home() {
@@ -110,7 +111,17 @@ export default function Home() {
               Clear
             </Button>
             <Button size={"lg"} onClick={onFileUpload} disabled={isLoading}>
-              Upload
+              {isLoading ? (
+                <RotatingLines
+                  visible={true}
+                  width="26"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                />
+              ) : (
+                "Upload"
+              )}
             </Button>
           </div>
         </div>
