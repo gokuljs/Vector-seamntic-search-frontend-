@@ -65,6 +65,9 @@ export default function Home() {
       setIsLoading(false);
     } catch (err) {
       console.log("Error:", err);
+      toast({
+        title: "Something went wrong Try after sometime",
+      });
       setIsLoading(false);
     }
   };

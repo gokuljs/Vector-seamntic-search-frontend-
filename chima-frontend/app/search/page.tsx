@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
 import { ColorRing } from "react-loader-spinner";
+import { useToast } from "@/components/ui/use-toast";
 
 interface DataProps {
   description: string;
@@ -17,6 +18,8 @@ const Page = () => {
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
   const [data, setData] = useState<DataProps[]>([]);
   const [isLoading, setLoading] = useState<boolean>(false);
+  const { toast } = useToast();
+
   const onSubmit = useCallback(async () => {
     if (currentQuestion.length === 0) return;
     setLoading(true);
@@ -27,6 +30,9 @@ const Page = () => {
       setData(response.data.data);
     } catch (error) {
       console.error(error);
+      toast({
+        title: "Something went wrong Try after sometime",
+      });
     } finally {
       setLoading(false);
     }
