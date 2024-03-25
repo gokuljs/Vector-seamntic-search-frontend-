@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { CloudUpload } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
-import { toast } from "sonner";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 
 const MAX_FILES = 8;
@@ -11,31 +11,37 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleDivClick = () => {
     inputRef.current && inputRef.current.click();
   };
 
-  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const files: FileList = event.target.files;
-      const imageFiles: File[] = Array.from(files).filter((file) =>
-        file.type.startsWith("image/")
-      );
-      setFile((prev) => {
-        const spaceLeft = MAX_FILES - prev.length;
-        const filesToAdd = imageFiles.slice(0, spaceLeft);
-        if (filesToAdd.length < imageFiles.length) {
-          console.log("checked");
-          toast(
-            `You can only upload a maximum of ${MAX_FILES} files in total.`
-          );
-        }
-        return [...prev, ...filesToAdd];
-      });
-      event.target.value = ""; // This line clears the selected files
-    }
-  };
+  const handleFileUpload = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files) {
+        console.log("check", "ssss");
+        const files: FileList = event.target.files;
+        const imageFiles: File[] = Array.from(files).filter((file) =>
+          file.type.startsWith("image/")
+        );
+        setFile((prev) => {
+          const spaceLeft = MAX_FILES - prev.length;
+          const filesToAdd = imageFiles.slice(0, spaceLeft);
+          if (filesToAdd.length < imageFiles.length) {
+            console.log("checked");
+            toast({
+              title: "Max Number of files exceeded",
+              description: "Only ${MAX_FILES} files are permitted.",
+            });
+          }
+          return [...prev, ...filesToAdd];
+        });
+        event.target.value = ""; // This line clears the selected files
+      }
+    },
+    []
+  );
 
   const onFileUpload = async () => {
     if (file.length === 0) return;
