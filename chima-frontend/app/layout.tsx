@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "./_components/navabar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,15 +20,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} flex flex-col`}>
-        <Navbar />
-        <main className="h-full w-full">{children}</main>
-        <Toaster
-          duration={20}
-          closeButton={true}
-          dir="rtl"
-          position="top-right"
-          className="z-50"
-        />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <>
+            <Navbar />
+            <main className="h-full w-full">{children}</main>
+            <Toaster
+              duration={3000}
+              closeButton={true}
+              dir="rtl"
+              position="top-right"
+              className="z-50"
+            />
+          </>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/ui/dark";
 import { BrainCog } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -18,6 +19,7 @@ const Navbar = () => {
           <Button onClick={() => router.push("/")} variant={"ghost"}>
             Upload
           </Button>
+          <ModeToggle />
         </div>
       </div>
     </nav>
